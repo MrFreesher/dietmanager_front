@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <link rel="shortcut icon" href="img/icon.png" />
+    <title>Kalkulator kalorii| Food4You</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Strona" />
+    <meta name="keywords" content="Informatyka" />
+    <meta name="robots" content="all" />
+    <link rel="stylesheet" type="text/css" href="style/style1.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <div class="first_line_links">
+      <ul class="linki">
+        <li>
+          <a href="index.html"
+            ><img
+              src="img/home1.png"
+              alt="home"
+              onmouseover="this.src= 'img/home2.png'"
+              onmouseout="this.src= 'img/home1.png'"
+          /></a>
+        </li>
+        <li><img src="img/logo.png" alt="logo" /></li>
+      </ul>
+    </div>
+
+    <div class="header">
+      <div class="nav">
+        <a
+          href="kalorie.html"
+          style="color: #ffb300; border-top: 1px solid #ffb300;"
+          >Kalorie</a
+        >
+        <a href="bmi.html">BMI</a>
+        <a href="odzywianie.html">Odżywanie</a>
+        <a href="skladniki.html">Dodaj składnik </a>
+        <a href="informacje.html">Info </a>
+      </div>
+    </div>
+
+    <div class="wrapper">
+      <div class="content1">
+        <h2 class="calculator-title">Kalkulator kalorii</h2>
+
+        <p>Ilość posiłków:</p>
+        <select class="mealsnumber"> </select>
+
+        <button onclick="formGenerate()" class="btn">Generuj</button>
+      </div>
+
+      <div id="summary" style="display:none;">
+        <h2>Podsumowanie</h2>
+        <div class="table200">
+          <table>
+            <thead>
+              <tr class="table200-head">
+                <th class="column1">Nazwa</th>
+                <th class="column2">Wartości</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="column1">Kalorie</td>
+                <td class="column2">344</td>
+              </tr>
+              <tr>
+                <td class="column1">Białko</td>
+                <td class="column2">255</td>
+              </tr>
+              <tr>
+                <td class="column1">Tłuszcz</td>
+                <td class="column2">123</td>
+              </tr>
+              <tr>
+                <td class="column1">Weglowodany</td>
+                <td class="column2">84</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="remember">
+            <span style="color: #ffb300;">Pamiętaj!</span> Każdy organizm jest
+            inny! Podane przez kalkulator kalorii wartości mają charakter
+            orientacyjny i pomocniczy. Żadne narzędzie nie zastąpi konsultacji
+            ze specjalistą! Zamieszczone informacje nie mogą być podstawą do
+            przeprowadzenia samodiagnozy czy leczenia.
+          </p>
+        </div>
+      </div>
+
+      <div id="form1" style="display:none;">
+        <form id="regForm" action="/action_page.php">
+          <div style="overflow:auto;">
+            <div style="float:right;">
+              <button type="button" id="prevBtn" onclick="nextPrev(-1)">
+                Previous
+              </button>
+              <button type="button" id="nextBtn" onclick="nextPrev(1)">
+                Next
+              </button>
+            </div>
+          </div>
+
+          <!-- Circles which indicates the steps of the form: -->
+          <div style="text-align:center;margin-top:40px;" id="steps"></div>
+        </form>
+      </div>
+    </div>
+
+    <script src="js/kalorie.js"></script>
+
+    <div id="down_description">
+      <hr class="linia-dol" />
+      <p class="copyright">Copyright &copy; by Marta Lewandowska</p>
+    </div>
+  </body>
+</html>
