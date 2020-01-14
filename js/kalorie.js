@@ -13,9 +13,12 @@ const ingredientsTableHeaders = [
 function formGenerate() {
   getNumberOfMeals();
   generateIngredientsInput();
+  initSummary();
+  document.getElementById("summary").style.display = "block";
+  document.getElementById("summary").classList.add("tab");
   addSteps();
   initList();
-  document.getElementById("summary").style.display = "block";
+
   document.getElementById("form1").style.display = "block";
   showTab(currentTab);
 }
@@ -33,6 +36,9 @@ var currentTab = 0; // Current tab is set to be the first tab (0)
 // Display the current tab
 
 function showTab(n) {
+  console.log(n);
+  console.log(currentTab);
+
   // This function will display the specified tab of the form...
   var x = document.getElementsByClassName("tab");
   x[n].style.display = "block";
@@ -49,6 +55,7 @@ function showTab(n) {
   }
   //... and run a function that will display the correct step indicator:
   fixStepIndicator(n);
+
   showIngredientsInTable();
 }
 
@@ -62,9 +69,11 @@ function nextPrev(n) {
   // Increase or decrease the current tab by 1:
   currentTab = currentTab + n;
   // if you have reached the end of the form...
-  if (currentTab >= x.length) {
+  if (currentTab == x.length - 1) {
+    showSummary();
+    fixStepIndicator(currentTab);
     // ... the form gets submitted:
-    document.getElementById("regForm").submit();
+    //document.getElementById("regForm").submit();
     return false;
   }
   // Otherwise, display the correct tab:
@@ -175,7 +184,7 @@ function addIngredientToMeal() {
   let input = document.querySelector(`#search_${currentTab}`);
   const ingredient = {};
   ingredient.name = input.value;
-  ingredient.calories = 0;
+  ingredient.calories = 1;
   ingredient.protein = 0;
   ingredient.fat = 0;
   ingredient.carbohydrates = 0;
@@ -195,31 +204,103 @@ function showIngredientsInTable(n) {
     const tableRow = document.createElement("tr");
     const nameTd = document.createElement("td");
     nameTd.textContent = ingredient.name;
+    nameTd.classList.add("column1");
     const caloriesTd = document.createElement("td");
     caloriesTd.textContent = ingredient.calories;
+    caloriesTd.classList.add("column2");
     const proteinTd = document.createElement("td");
     proteinTd.textContent = ingredient.protein;
+    proteinTd.classList.add("column3");
     const fatTd = document.createElement("td");
     fatTd.textContent = ingredient.fat;
+    fatTd.classList.add("column4");
     const carbohydratesTd = document.createElement("td");
     carbohydratesTd.textContent = ingredient.carbohydrates;
+    carbohydratesTd.classList.add("column5");
+    const buttonTd = document.createElement("td");
+    buttonTd.classList.add("column6");
     const removeBtn = document.createElement("button");
+
     removeBtn.type = "button";
     removeBtn.textContent = "Usuń";
     removeBtn.classList.add("btn-primary");
     removeBtn.addEventListener("click", () => removeFood(ingredient.name));
+    buttonTd.append(removeBtn);
 
     tableRow.appendChild(nameTd);
     tableRow.appendChild(caloriesTd);
     tableRow.appendChild(proteinTd);
     tableRow.appendChild(fatTd);
     tableRow.appendChild(carbohydratesTd);
-    tableRow.appendChild(removeBtn);
+    tableRow.appendChild(buttonTd);
     tbody.appendChild(tableRow);
   }
 }
 function removeFood(name) {
   meals[currentTab] = meals[currentTab].filter(el => el.name !== name);
   showIngredientsInTable();
+}
+
+function calculateSummary() {
+  let calories = 0;
+  let protein = 0;
+  let fat = 0;
+  let carbohydrates = 0;
+  for (let i = 0; i < meals.length; i++) {
+    for (let j = 0; j < meals[i].length; j++) {
+      calories += meals[i][j].calories;
+      protein += meals[i][j].protein;
+      fat += meals[i][j].fat;
+      carbohydrates += meals[i][j].carbohydrates;
+    }
+  }
+  generateSummary(calories, protein, fat, carbohydrates);
+  console.log("Calories", calories);
+}
+function showSummary() {
+  resetSummary();
+  calculateSummary();
+}
+function generateSummary(calories, protein, fat, carbohydrates) {
+  const element = document.querySelector("#summary");
+  element.innerHTML =
+    element.innerHTML +
+    `<h2>Podsumowanie</h2>
+  <div class="table200">
+        <table>
+          <thead>
+            <tr class="table200-head">
+              <th class="column1">Nazwa</th>
+              <th class="column2">Wartości</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td class="column1">Kalorie</td>
+            <td class="column2">${calories}</td>
+          </tr>
+          <tr>
+            <td class="column1">Białko</td>
+            <td class="column2">${protein}</td>
+          </tr>
+          <tr>
+            <td class="column1">Tłuszcz</td>
+            <td class="column2">${fat}</td>
+          </tr>
+          <tr>
+            <td class="column1">Weglowodany</td>
+            <td class="column2">${carbohydrates}</td>
+          </tr>
+      </table>
+      <p class="remember"><span style="color: #ffb300;">Pamiętaj!</span> Każdy organizm jest inny! Podane przez kalkulator kalorii wartości mają charakter orientacyjny i pomocniczy. Żadne narzędzie nie zastąpi konsultacji ze specjalistą! Zamieszczone informacje nie mogą być podstawą do przeprowadzenia samodiagnozy czy leczenia.</p>`;
+}
+function initSummary() {
+  const summaryContainer = document.createElement("div");
+  summaryContainer.id = "summary";
+  summaryContainer.classList.add("tab");
+  document.querySelector("#regForm").appendChild(summaryContainer);
+}
+function resetSummary() {
+  document.querySelector("#summary").innerHTML = "";
 }
 generateMealsOption();
