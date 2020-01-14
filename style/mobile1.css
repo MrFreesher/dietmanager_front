@@ -135,6 +135,8 @@ ul.linki li {
   padding: 0px 10px 40px 10px;
   height: 100%;
   position: relative;
+  display: flex;
+  flex-direction: column-reverse;
 }
 h2 {
   text-align: center;
