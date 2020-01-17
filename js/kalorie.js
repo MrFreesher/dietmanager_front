@@ -7,9 +7,10 @@ const ingredientsTableHeaders = [
   "Kalorie",
   "Białko",
   "Tłuszcz",
-  "Węglowodany",
+  "Węgle",
   "Akcje"
 ];
+let searchedIngredients = [];
 function formGenerate() {
   getNumberOfMeals();
   generateIngredientsInput();
@@ -49,9 +50,9 @@ function showTab(n) {
     document.getElementById("prevBtn").style.display = "inline";
   }
   if (n == x.length - 2) {
-    document.getElementById("nextBtn").innerHTML = "Submit";
+    document.getElementById("nextBtn").innerHTML = "Podsumowanie";
   } else {
-    document.getElementById("nextBtn").innerHTML = "Next";
+    document.getElementById("nextBtn").innerHTML = "Następne";
   }
   //... and run a function that will display the correct step indicator:
   fixStepIndicator(n);
@@ -134,13 +135,19 @@ function generateIngredientsInput() {
     ingredientInput.type = "text";
     ingredientInput.placeholder = "Wybierz składnik";
     ingredientInput.id = `search_${i}`;
+    ingredientInput.addEventListener("input", () => getData());
     let ingredientAddBtn = document.createElement("button");
     ingredientAddBtn.type = "button";
     ingredientAddBtn.textContent = "Dodaj";
     ingredientAddBtn.addEventListener("click", addIngredientToMeal);
+
+    let ingredientDataList = document.createElement("datalist");
+    ingredientDataList.id = `match-list-${i}`;
+    ingredientInput.setAttribute("list", `match-list-${i}`);
     ingredientsContainer.classList.add("tab");
     ingredientsContainer.appendChild(mealHeader);
     ingredientsContainer.appendChild(ingredientInput);
+    ingredientsContainer.appendChild(ingredientDataList);
     ingredientsContainer.appendChild(ingredientAddBtn);
     ingredientsContainer.appendChild(generateIngredientsTable(i));
     mealsForm.appendChild(ingredientsContainer);
@@ -181,18 +188,13 @@ function addSteps() {
 }
 
 function addIngredientToMeal() {
-  let input = document.querySelector(`#search_${currentTab}`);
-  const ingredient = {};
-  ingredient.name = input.value;
-  ingredient.calories = 1;
-  ingredient.protein = 0;
-  ingredient.fat = 0;
-  ingredient.carbohydrates = 0;
+  const input = document.querySelector(`#search_${currentTab}`).value;
 
-  meals[currentTab].push(ingredient);
-  console.log(meals);
+  const ingredient = searchedIngredients.filter(item => item.name === input);
 
-  showIngredientsInTable();
+  meals[currentTab].push(ingredient[0]);
+
+  showIngredientsInTable(currentTab);
 }
 
 function showIngredientsInTable(n) {
@@ -255,7 +257,6 @@ function calculateSummary() {
     }
   }
   generateSummary(calories, protein, fat, carbohydrates);
-  console.log("Calories", calories);
 }
 function showSummary() {
   resetSummary();
@@ -304,3 +305,47 @@ function resetSummary() {
   document.querySelector("#summary").innerHTML = "";
 }
 generateMealsOption();
+
+async function getData(e) {
+  let searchText = document.querySelector(`#search_${currentTab}`).value;
+
+  let matchlist = document.querySelector(`#match-list-${currentTab}`);
+  matchlist.innerHTML = "";
+  if (searchText.length !== 0) {
+    fetch(`https://blooming-plateau-41206.herokuapp.com/food/${searchText}`)
+      .then(res => res.json())
+      .then(data => {
+        return data.foods;
+      })
+
+      .then(foods => {
+        searchedIngredients.push(...foods);
+        showSearchedFood(searchedIngredients);
+      });
+
+    //  searchedFood = await res.json();
+  } else {
+    searchedIngredients = [];
+    showSearchedFood(searchedIngredients);
+  }
+}
+const showSearchedFood = foods => {
+  const datalist = document.querySelector(`#match-list-${currentTab}`);
+  const html = foods.map(item => {
+    const el = document.createElement("option");
+    el.value = item.name;
+    el.textContent = item.name;
+    // const el = `<option value="${item.id}" onClick="addMeal()">
+    //   ${item.Name}
+    //   </option>`;
+
+    // el.addEventListener("click", addIngredientToMeal);
+    return el;
+  });
+  const select = document.createElement("select");
+
+  html.forEach(element => {
+    select.appendChild(element);
+  });
+  datalist.appendChild(select);
+};

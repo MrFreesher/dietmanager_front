@@ -51,32 +51,62 @@
 
     <div class="wrapper">
       <div class="content2">
-        <form action="/" method="post">
+        <form method="post">
           <h2 class="calculator-title">Dodaj nowe składnki</h2>
 
           <div class="group__right">
             <div class="ww-controls2">
               <p>Nazwa składnika:</p>
-              <input type="text" class="inputname" name="weight" value="" />
+              <input
+                type="text"
+                class="inputname"
+                name="weight"
+                value=""
+                step="0.01"
+              />
               <br />
               <p>Kaloryczność:</p>
-              <input type="number" class="inputkcl" name="height" value="" />
+              <input
+                type="number"
+                class="inputkcl"
+                name="height"
+                value=""
+                step="0.01"
+              />
               <br />
 
-              <p>Ilość węglowodanów:</p>
-              <input type="number" class="inputweglo" name="height" value="" />
+              <p>Ilość węgli:</p>
+              <input
+                type="number"
+                class="inputweglo"
+                name="height"
+                value=""
+                step="0.01"
+              />
               <br />
 
               <p>Ilość tłuszczu:</p>
-              <input type="number" class="inputtlu" name="height" value="" />
+              <input
+                type="number"
+                class="inputtlu"
+                name="height"
+                value=""
+                step="0.01"
+              />
               <br />
 
               <p>Ilość białka:</p>
-              <input type="number" class="inputbial" name="height" value="" />
+              <input
+                type="number"
+                class="inputbial"
+                name="height"
+                value=""
+                step="0.01"
+              />
             </div>
 
             <div class="btn3">
-              <button>DODAJ</button>
+              <button type="button">DODAJ</button>
             </div>
           </div>
         </form>
@@ -87,5 +117,6 @@
       <hr class="linia-dol" />
       <p class="copyright">Copyright &copy; by Marta Lewandowska</p>
     </div>
+    <script src="js/składniki.js"></script>
   </body>
 </html>

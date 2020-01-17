@@ -131,6 +131,7 @@ ul.linki li {
   position: relative;
   display: flex;
   flex-direction: column-reverse;
+  margin-top: -30px;
 }
 h2 {
   text-align: center;
@@ -155,10 +156,6 @@ input.invalid {
 .tab {
   display: none;
   padding-bottom: 50px;
-}
-.tab p {
-  padding-left: 120px;
-  display: inline;
 }
 button {
   background-color: #ffb300;
@@ -208,8 +205,6 @@ button:hover {
   border: 3px solid #131313;
 }
 #summary {
-  margin-left: 100px;
-  width: 700px;
   overflow: hidden;
   background-color: #171717;
   border: 3px solid #171717;
@@ -326,6 +321,7 @@ button:hover {
 .inputheight,
 .inputweight {
   margin-left: 20px;
+  text-align: center;
 }
 
 .ww-controls2 input {
@@ -598,6 +594,7 @@ tbody tr {
 }
 #bmisummary {
   text-align: center;
+  margin-top: 80px;
 }
 
 #wskbmi {

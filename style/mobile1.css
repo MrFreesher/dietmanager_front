@@ -12,7 +12,7 @@ body {
     Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   color: #cfcfcf;
   background-image: url("../img/bcg2.png");
-  background-repeat: no-repeat;
+  background-repeat: repeat-y;
   background-attachment: fixed;
   background-size: cover;
 }
@@ -485,6 +485,7 @@ hr.linia-dol {
   background-repeat: no-repeat;
   float: left;
   margin-bottom: 0px;
+  display: none;
 }
 table {
   border-spacing: 1;

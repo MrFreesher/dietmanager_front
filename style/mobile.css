@@ -8,7 +8,8 @@ body {
   margin: auto;
   padding: 0%;
   background-image: url("../img/bcg.png");
-  background-repeat: no-repeat;
+  background-repeat: repeat-y;
+  background-color: black;
   background-attachment: fixed;
   background-size: cover;
 }
